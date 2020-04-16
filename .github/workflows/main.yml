@@ -12,7 +12,7 @@ on:
 jobs:
     lint:
         runs-on: ubuntu-latest
-        name: "Lint"
+        name: 'Lint'
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
@@ -61,7 +61,7 @@ jobs:
 
     tests:
         runs-on: ubuntu-latest
-        name: "Test suite on PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Dependecies: ${{ matrix.dependency-version }}"
+        name: 'Test suite on PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Dependecies: ${{ matrix.dependency-version }}'
         strategy:
             matrix:
                 php: ['7.1', '7.2', '7.3', '7.4']
@@ -106,8 +106,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer remove infection/infection phpunit/phpunit ergebnis/composer-normalize orchestra/testbench orchestra/testbench phpstan/phpstan phpunit/phpunit timacdonald/php-style vimeo/psalm --dev --no-update --no-interaction --verbose
-                  composer require "illuminate/support:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-update --no-interaction --verbose
+                  composer remove 'infection/infection' 'phpunit/phpunit' 'ergebnis/composer-normalize' 'orchestra/testbench' 'orchestra/testbench' 'phpstan/phpstan' 'phpunit/phpunit' 'timacdonald/php-style' 'vimeo/psalm' --dev --no-update --no-interaction --verbose
+                  composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
             - name: Check platform requirements
