@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use TypeError;
 use ErrorException;
+use Illuminate\Support\Collection;
+use Orchestra\Testbench\TestCase;
 use Tests\Middleware\Basic;
 use Tests\Middleware\Optional;
-use Tests\Middleware\Required;
-use Tests\Middleware\Variadic;
-use Orchestra\Testbench\TestCase;
-use Illuminate\Support\Collection;
 use Tests\Middleware\OptionalRequired;
+use Tests\Middleware\Required;
 use Tests\Middleware\RequiredOptionalVariadic;
+use Tests\Middleware\Variadic;
+use TypeError;
 
+/**
+ * @small
+ */
 class HasParametersTest extends TestCase
 {
     public function testList(): void

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace TiMacDonald\Middleware;
 
-use TypeError;
-use ReflectionMethod;
-use ReflectionParameter;
+use function assert;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use function is_string;
+use ReflectionMethod;
+use ReflectionParameter;
+use TypeError;
 
 trait HasParameters
 {
@@ -166,7 +168,7 @@ trait HasParameters
             return;
         }
 
-        \assert($missingRequiredParameter instanceof ReflectionParameter);
+        assert($missingRequiredParameter instanceof ReflectionParameter);
 
         throw new TypeError('Missing required argument $'.$missingRequiredParameter->getName().' for middleware '.static::class.'::handle()');
     }
@@ -196,7 +198,7 @@ trait HasParameters
             return;
         }
 
-        \assert(\is_string($unexpectedArgument));
+        assert(is_string($unexpectedArgument));
 
         throw new TypeError('Unknown argument $'.$unexpectedArgument.' passed to middleware '.static::class.'::handle()');
     }
