@@ -4,6 +4,8 @@
 
 A trait for Laravel middleware that allows you to pass arguments in a more PHP'ish way, including as a key => value pair for named parameters,  and as a list for variadic parameters. Improves static analysis / IDE support, allows you to specify arguments by referencing the parameter name, enables skipping optional parameters (which fallback to their default value), and adds some validation so you don't forget any required parameters by accident.
 
+Read more about the why in my blog post [Rethinking Laravel's middleware argument API](https://timacdonald.me/rethinking-laravels-middleware-argument-api/)
+
 ## Installation
 
 You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/has-parameters).
