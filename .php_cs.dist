@@ -5,4 +5,4 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/tests')
     ->notPath('OptionalRequired.php');
 
-return style_rules($finder);
+return TiMacDonald\styles($finder);
