@@ -6,6 +6,11 @@ A trait for Laravel middleware that allows you to pass arguments in a more PHP'i
 
 Read more about the why in my blog post [Rethinking Laravel's middleware argument API](https://timacdonald.me/rethinking-laravels-middleware-argument-api/)
 
+## Version support
+
+- **PHP**: ^7.1
+- **Laravel**: 5.5, 5.6, 5.7, 5.8, 6.0, 7.0
+
 ## Installation
 
 You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/has-parameters).
