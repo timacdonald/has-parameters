@@ -98,6 +98,8 @@ As we saw previously in the handle method, the default values of `$decayMinutes`
 When your middleware ends in a variadic paramater, you can pass an array of values for the variadic parameter key. Take a look at the following `handle()` method.
 
 ```php
+<?php
+
 public function handle(Request $request, Closure $next, string $ability, string ...$models)
 ```
 
