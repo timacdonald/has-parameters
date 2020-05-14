@@ -24,6 +24,8 @@ $ composer require timacdonald/has-parameters
 To get started with an example, I'm going to use a stripped back version of Laravel's `ThrottleRequests`. First up, add the `HasParameters` trait to your middleware.
 
 ```php
+<?php
+
 class ThrottleRequests
 {
     use HasParameters;
@@ -38,6 +40,8 @@ class ThrottleRequests
 You can now pass arguments to this middleware using the static `with()` method, using the parameter name as the key.
 
 ```php
+<?php
+
 Route::stuff()
     ->middleware([
         ThrottleRequests::with([
@@ -54,6 +58,8 @@ The static `with()` method allows you to easily see which values represent what 
 The order of the keys does not matter. The trait will pair up the keys to the parameter names in the `handle()` method.
 
 ```php
+<?php
+
 // before...
 Route::stuff()
     ->middleware([
@@ -75,6 +81,8 @@ Route::stuff()
 If any parameters in the `handle` method have a default value, you do not need to pass them through - unless you are changing their value. As an example, if you'd like to only specify a prefix for the `ThrottleRequests` middleware, but keep the `$decayMinutes` and `$maxAttempts` as their default values, you can do the following...
 
 ```php
+<?php
+
 Route::stuff()
     ->middleware([
         ThrottleRequests::with([
@@ -96,6 +104,8 @@ public function handle(Request $request, Closure $next, string $ability, string 
 Here is how we can pass a list of values to the variadic `$models` parameter...
 
 ```php
+<?php
+
 Route::stuff()
     ->middleware([
         Authorize::with([
@@ -122,6 +132,8 @@ Another validation that occurs is checking to make sure all required parameters 
 The static `in()` method very much reflects and works the same as the existing concatination API. It accepts a list of values, i.e. a non-associative array. You should use this method if your `handle()` method is a single variadic parameter, i.e. expecting a single list of values, as shown in the following middleware handle method...
 .
 ```php
+<?php
+
 public function handle(Request $request, Closure $next, string ...$states)
 {
     //
@@ -131,6 +143,8 @@ public function handle(Request $request, Closure $next, string ...$states)
 You can pass through a list of "states" to the middleware like so...
 
 ```php
+<?php
+
 Route::stuff()
     ->middleware([
         EnsurePostState::in([PostState::DRAFT, PostState::UNDER_REVIEW]),
