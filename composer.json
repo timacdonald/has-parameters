@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.0",
-        "infection/infection": "^0.16",
+        "infection/infection": "^0.17",
         "orchestra/testbench": "^5.0",
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "^9.0",
