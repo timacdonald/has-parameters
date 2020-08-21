@@ -64,8 +64,8 @@
         ]
     },
     "support": {
-        "issues": "https://github.com/timacdonald/with-parameters/issues",
-        "source": "https://github.com/timacdonald/with-parameters/releases/latest",
-        "docs": "https://github.com/timacdonald/with-parameters/blob/master/readme.md"
+        "issues": "https://github.com/timacdonald/has-parameters/issues",
+        "source": "https://github.com/timacdonald/has-parameters/releases/latest",
+        "docs": "https://github.com/timacdonald/has-parameters/blob/master/readme.md"
     }
 }
