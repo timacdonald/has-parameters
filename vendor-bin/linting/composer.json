@@ -1,0 +1,8 @@
+{
+    "require": {
+        "ergebnis/composer-normalize": "^2.0",
+        "timacdonald/php-style": "dev-master",
+        "vimeo/psalm": "^4.0",
+        "phpstan/phpstan": "^0.12.42"
+    }
+}
