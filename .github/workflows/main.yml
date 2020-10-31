@@ -35,7 +35,6 @@ jobs:
             - name: Install linting tools
               run: composer bin linting install --no-suggest --no-interaction --verbose
 
-
             - name: Install testing tools
               run: composer bin testing install --no-suggest --no-interaction --verbose
 
