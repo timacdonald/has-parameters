@@ -78,6 +78,9 @@ class HasParametersTest extends TestCase
 
     public function testListDetectsRequiredParametersThatHaveNotBeenProvided(): void
     {
+        if (PHP_MAJOR_VERSION >= 8) {
+            $this->markTestSkipped('Cannot have optional parameter before required parameter in PHP >=8.0.');
+        }
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Missing required argument $required for middleware Tests\\Middleware\\OptionalRequired::handle()');
 
@@ -181,11 +184,14 @@ class HasParametersTest extends TestCase
         $result = Variadic::with(['variadic' => false]);
         $this->assertSame('Tests\\Middleware\\Variadic:0', $result);
 
-        $result = OptionalRequired::with(['required' => 'laravel']);
-        $this->assertSame('Tests\\Middleware\\OptionalRequired:default,laravel', $result);
+        // Required parameters after optional parameters are no longer allowed as of PHP 8.0.
+        if (PHP_MAJOR_VERSION < 8) {
+            $result = OptionalRequired::with(['required' => 'laravel']);
+            $this->assertSame('Tests\\Middleware\\OptionalRequired:default,laravel', $result);
 
-        $result = OptionalRequired::with(['required' => 'laravel', 'optional' => 'vue']);
-        $this->assertSame('Tests\\Middleware\\OptionalRequired:vue,laravel', $result);
+            $result = OptionalRequired::with(['required' => 'laravel', 'optional' => 'vue']);
+            $this->assertSame('Tests\\Middleware\\OptionalRequired:vue,laravel', $result);
+        }
 
         $result = RequiredOptionalVariadic::with(['required' => 'laravel']);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,default', $result);
@@ -261,7 +267,7 @@ class HasParametersTest extends TestCase
 
     public function testMiddlewareThatUsesFuncGetArgsCanAccessArgumentsThatAreNotPassedAsParameters(): void
     {
-        $result = OptionalRequired::in(['laravel', 'vue', 'tailwind']);
-        $this->assertSame('Tests\\Middleware\\OptionalRequired:laravel,vue,tailwind', $result);
+        $result = Optional::in(['laravel', 'vue', 'tailwind']);
+        $this->assertSame('Tests\\Middleware\\Optional:laravel,vue,tailwind', $result);
     }
 }
