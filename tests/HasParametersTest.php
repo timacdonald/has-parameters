@@ -7,6 +7,7 @@ namespace Tests;
 use ErrorException;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;
+use const PHP_MAJOR_VERSION;
 use Tests\Middleware\Basic;
 use Tests\Middleware\Optional;
 use Tests\Middleware\OptionalRequired;
