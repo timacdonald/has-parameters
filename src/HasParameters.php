@@ -14,6 +14,32 @@ use TypeError;
 
 trait HasParameters
 {
+    public function someNewMethodWithNoCoverage(): void
+    {
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+    }
+
+    public function someNewOtherMethodWithNoCoverage(): void
+    {
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+        echo 'some stuff';
+    }
+
     /**
      * @param mixed $arguments
      */
