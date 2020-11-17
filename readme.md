@@ -1,3 +1,5 @@
+<p align="center"><img src="/art/header.png" alt="Has Parameters: a Laravel package by Tim MacDonald"></p>
+
 # Has Parameters
 
 ![CI](https://github.com/timacdonald/has-parameters/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/timacdonald/has-parameters/branch/master/graph/badge.svg)](https://codecov.io/gh/timacdonald/has-parameters) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fhas-parameters%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/has-parameters/master) ![Type coverage](https://shepherd.dev/github/timacdonald/has-parameters/coverage.svg)
@@ -168,6 +170,13 @@ One thing to note is the `false` is actually cast to the string `"0"` to keep so
 ## Developing and testing
 
 Although this package requires `"PHP": "^7.1"`, in order to install and develop locally, you should be running a recent version of PHP to ensure compatibility with the development tools.
+
+## Credits
+
+- [Tim MacDonald](https://github.com/timacdonald)
+- [All Contributors](../../contributors)
+
+And a special (vegi) thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
 
 ## Thanksware
 
