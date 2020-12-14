@@ -20,7 +20,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '^8.0'
+                  php-version: '8.0'
                   coverage: pcov
 
             - name: Cache dependencies
@@ -64,7 +64,7 @@ jobs:
         name: 'Test suite on PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Dependecies: ${{ matrix.dependency-version }}'
         strategy:
             matrix:
-                php: ['^7.1', '^7.2', '^7.3', '^7.4', '^8.0']
+                php: ['7.1', '7.2', '7.3', '7.4', '8.0']
                 laravel: ['~5.5.0', '~5.6.0', '~5.7.0', '~5.8.0', '^6.0', '^7.0', '^8.0']
                 dependency-version: ['prefer-lowest', 'prefer-stable']
                 include:
@@ -84,21 +84,21 @@ jobs:
                       testbench: '^6.0'
                 exclude:
                     - laravel: '~5.3.0'
-                      php: '^7.2'
+                      php: '7.2'
                     - laravel: '^6.0'
-                      php: '^7.1'
+                      php: '7.1'
                     - laravel: '^7.0'
-                      php: '^7.1'
+                      php: '7.1'
                     - laravel: '^8.0'
-                      php: '^7.1'
+                      php: '7.1'
                     - laravel: '^8.0'
-                      php: '^7.2'
+                      php: '7.2'
                     - laravel: '~5.6.0'
-                      php: '^8.0'
+                      php: '8.0'
                     - laravel: '~5.7.0'
-                      php: '^8.0'
+                      php: '8.0'
                     - laravel: '~5.8.0'
-                      php: '^8.0'
+                      php: '8.0'
 
         steps:
             - name: checkout code
