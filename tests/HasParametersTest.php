@@ -7,6 +7,7 @@ namespace Tests;
 use ErrorException;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;
+use const PHP_MAJOR_VERSION;
 use Tests\Middleware\Basic;
 use Tests\Middleware\Optional;
 use Tests\Middleware\OptionalRequired;
@@ -76,12 +77,24 @@ class HasParametersTest extends TestCase
         Basic::in(['laravel', ['vue', 'react']]);
     }
 
-    public function testListDetectsRequiredParametersThatHaveNotBeenProvided(): void
+    public function testListDetectsRequiredParametersThatHaveNotBeenProvidedAfterAnOptional(): void
     {
+        if (PHP_MAJOR_VERSION >= 8) {
+            $this->markTestSkipped('Tests functionality deprecated in PHP 8.0');
+        }
+
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Missing required argument $required for middleware Tests\\Middleware\\OptionalRequired::handle()');
 
         OptionalRequired::in(['laravel']);
+    }
+
+    public function testListDetectsRequiredParametersThatHaveNotBeenProvided(): void
+    {
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage('Missing required argument $required for middleware Tests\\Middleware\\Required::handle()');
+
+        Required::in([]);
     }
 
     public function testListDoesNotAcceptAssociativeArray(): void
@@ -181,11 +194,14 @@ class HasParametersTest extends TestCase
         $result = Variadic::with(['variadic' => false]);
         $this->assertSame('Tests\\Middleware\\Variadic:0', $result);
 
-        $result = OptionalRequired::with(['required' => 'laravel']);
-        $this->assertSame('Tests\\Middleware\\OptionalRequired:default,laravel', $result);
+        if (PHP_MAJOR_VERSION < 8) {
+            // Tests functionality deprecated in PHP 8.0
+            $result = OptionalRequired::with(['required' => 'laravel']);
+            $this->assertSame('Tests\\Middleware\\OptionalRequired:default,laravel', $result);
 
-        $result = OptionalRequired::with(['required' => 'laravel', 'optional' => 'vue']);
-        $this->assertSame('Tests\\Middleware\\OptionalRequired:vue,laravel', $result);
+            $result = OptionalRequired::with(['required' => 'laravel', 'optional' => 'vue']);
+            $this->assertSame('Tests\\Middleware\\OptionalRequired:vue,laravel', $result);
+        }
 
         $result = RequiredOptionalVariadic::with(['required' => 'laravel']);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,default', $result);
@@ -261,6 +277,10 @@ class HasParametersTest extends TestCase
 
     public function testMiddlewareThatUsesFuncGetArgsCanAccessArgumentsThatAreNotPassedAsParameters(): void
     {
+        if (PHP_MAJOR_VERSION >= 8) {
+            $this->markTestSkipped('Tests functionality deprecated in PHP 8.0');
+        }
+
         $result = OptionalRequired::in(['laravel', 'vue', 'tailwind']);
         $this->assertSame('Tests\\Middleware\\OptionalRequired:laravel,vue,tailwind', $result);
     }
