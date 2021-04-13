@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace TiMacDonald\Middleware;
 
-use function assert;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use function is_string;
 use ReflectionMethod;
 use ReflectionParameter;
 use TypeError;
@@ -159,6 +157,7 @@ trait HasParameters
 
     private static function validateParametersAreOptional(Collection $parameters): void
     {
+        /** @var ?ReflectionParameter */
         $missingRequiredParameter = $parameters->reject(static function (ReflectionParameter $parameter): bool {
             return $parameter->isDefaultValueAvailable() || $parameter->isVariadic();
         })
@@ -167,8 +166,6 @@ trait HasParameters
         if ($missingRequiredParameter === null) {
             return;
         }
-
-        assert($missingRequiredParameter instanceof ReflectionParameter);
 
         throw new TypeError('Missing required argument $'.$missingRequiredParameter->getName().' for middleware '.static::class.'::handle()');
     }
@@ -189,6 +186,7 @@ trait HasParameters
 
     private static function validateNoUnexpectedArguments(Collection $parameters, Collection $arguments): void
     {
+        /** @var ?string */
         $unexpectedArgument = $arguments->keys()
             ->first(static function (string $name) use ($parameters): bool {
                 return ! $parameters->has($name);
@@ -197,8 +195,6 @@ trait HasParameters
         if ($unexpectedArgument === null) {
             return;
         }
-
-        assert(is_string($unexpectedArgument));
 
         throw new TypeError('Unknown argument $'.$unexpectedArgument.' passed to middleware '.static::class.'::handle()');
     }

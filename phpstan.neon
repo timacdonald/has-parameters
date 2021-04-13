@@ -4,4 +4,5 @@ parameters:
     paths:
         - src
         - tests
-    ignoreErrors:
+    excludePaths:
+        - tests/Middleware/OptionalRequired.php

@@ -77,15 +77,24 @@ class HasParametersTest extends TestCase
         Basic::in(['laravel', ['vue', 'react']]);
     }
 
-    public function testListDetectsRequiredParametersThatHaveNotBeenProvided(): void
+    public function testListDetectsRequiredParametersThatHaveNotBeenProvidedAfterAnOptional(): void
     {
         if (PHP_MAJOR_VERSION >= 8) {
             $this->markTestSkipped('Cannot have optional parameter before required parameter in PHP >=8.0.');
         }
+
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Missing required argument $required for middleware Tests\\Middleware\\OptionalRequired::handle()');
 
         OptionalRequired::in(['laravel']);
+    }
+
+    public function testListDetectsRequiredParametersThatHaveNotBeenProvided(): void
+    {
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage('Missing required argument $required for middleware Tests\\Middleware\\Required::handle()');
+
+        Required::in([]);
     }
 
     public function testListDoesNotAcceptAssociativeArray(): void
@@ -185,7 +194,7 @@ class HasParametersTest extends TestCase
         $result = Variadic::with(['variadic' => false]);
         $this->assertSame('Tests\\Middleware\\Variadic:0', $result);
 
-        // Required parameters after optional parameters are no longer allowed as of PHP 8.0.
+        // Cannot have optional parameter before required parameter in PHP >=8.0.
         if (PHP_MAJOR_VERSION < 8) {
             $result = OptionalRequired::with(['required' => 'laravel']);
             $this->assertSame('Tests\\Middleware\\OptionalRequired:default,laravel', $result);

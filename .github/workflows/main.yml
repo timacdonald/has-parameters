@@ -20,20 +20,17 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
                   coverage: pcov
 
             - name: Cache dependencies
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v1
+                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v3
 
             - name: Install dependencies
               run: composer install --no-suggest --no-interaction --verbose
-
-            - name: Install linting tools
-              run: composer bin linting install --no-suggest --no-interaction --verbose
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
@@ -119,11 +116,11 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v1
+                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v3
 
             - name: Install dependencies
               run: |
-                  composer remove 'phpunit/phpunit' 'ergebnis/composer-normalize' 'orchestra/testbench' 'infection/infection' --dev --no-update --no-interaction --verbose
+                  composer remove 'infection/infection' 'phpunit/phpunit' 'ergebnis/composer-normalize' 'orchestra/testbench' 'orchestra/testbench' 'phpstan/phpstan' 'phpunit/phpunit' 'timacdonald/php-style' 'vimeo/psalm' --dev --no-update --no-interaction --verbose
                   composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
