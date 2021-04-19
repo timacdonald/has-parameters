@@ -21,7 +21,23 @@ trait HasParameters
 
         $parameters = static::parameters();
 
-        static::validateArgumentMap($parameters, $arguments);
+        static::validateArgumentMapIsAnAssociativeArray($arguments);
+
+        $aliases = new Collection(static::parameterAliasMap());
+
+        if ($aliases->isNotEmpty()) {
+            static::validateAliasesReferenceParameters($parameters, $aliases);
+
+            static::validateAliasesDontPointToSameParamters($aliases);
+
+            static::validateOriginalAndAliasHaveNotBeenPassed($arguments, $aliases);
+
+            $arguments = static::normaliseArguments($arguments, $aliases);
+        }
+
+        static::validateNoUnexpectedArguments($parameters, $arguments);
+
+        static::validateParametersAreOptional($parameters->diffKeys($arguments));
 
         $arguments = static::parseArgumentMap($parameters, new Collection($arguments));
 
@@ -37,11 +53,23 @@ trait HasParameters
 
         $parameters = static::parameters();
 
-        static::validateArgumentList($parameters, $arguments);
+        static::validateArgumentListIsNotAnAssociativeArray($arguments);
+
+        static::validateParametersAreOptional($parameters->slice($arguments->count()));
 
         $arguments = static::parseArgumentList($arguments);
 
         return static::formatArguments($arguments);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected static function parameterAliasMap(): array
+    {
+        return [
+            // 'alias' => 'parameter',
+        ];
     }
 
     private static function formatArguments(Collection $arguments): string
@@ -139,20 +167,18 @@ trait HasParameters
         return (string) $value;
     }
 
-    private static function validateArgumentList(Collection $parameters, Collection $arguments): void
+    private static function normaliseArguments(Collection $arguments, Collection $aliases): Collection
     {
-        static::validateArgumentListIsNotAnAssociativeArray($arguments);
+        return $arguments->mapWithKeys(
+            /** @param mixed $value */
+            static function ($value, string $key) use ($aliases): array {
+                if ($aliases->has($key)) {
+                    return [$aliases[$key] => $value];
+                }
 
-        static::validateParametersAreOptional($parameters->slice($arguments->count()));
-    }
-
-    private static function validateArgumentMap(Collection $parameters, Collection $arguments): void
-    {
-        static::validateArgumentMapIsAnAssociativeArray($arguments);
-
-        static::validateNoUnexpectedArguments($parameters, $arguments);
-
-        static::validateParametersAreOptional($parameters->diffKeys($arguments));
+                return [$key => $value];
+            }
+        );
     }
 
     private static function validateParametersAreOptional(Collection $parameters): void
@@ -197,5 +223,26 @@ trait HasParameters
         }
 
         throw new TypeError('Unknown argument $'.$unexpectedArgument.' passed to middleware '.static::class.'::handle()');
+    }
+
+    private static function validateOriginalAndAliasHaveNotBeenPassed(Collection $arguments, Collection $aliases): void
+    {
+        if ($arguments->intersectByKeys($aliases->flip())->isNotEmpty()) {
+            throw new TypeError('Cannot pass an original parameter and and aliases parameter name at the same time.');
+        }
+    }
+
+    private static function validateAliasesDontPointToSameParamters(Collection $aliases): void
+    {
+        if ($aliases->duplicates()->isNotEmpty()) {
+            throw new TypeError('Two provided aliases cannot point to the same parameter.');
+        }
+    }
+
+    private static function validateAliasesReferenceParameters(Collection $parameters, Collection $aliases): void
+    {
+        if ($aliases->flip()->diffKeys($parameters)->isNotEmpty()) {
+            throw new TypeError('Aliases must reference existing parameters.');
+        }
     }
 }
