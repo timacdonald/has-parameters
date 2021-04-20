@@ -249,12 +249,13 @@ trait HasParameters
 
     private static function duplicates(Collection $items): Collection
     {
+        // Copied from Collection::duplicates() v8.36.2 for backwards
+        // compatibility. This could probably be a macro or an extended class,
+        // but feels like overkill for this single file package right now.
+
         if (method_exists($items, 'duplicates')) {
             return $items->duplicates();
         }
-
-        // Copied from Collection::duplicates() v8.36.2 for backwards
-        // compatibility.
 
         $uniqueItems = $items->unique(null);
 
