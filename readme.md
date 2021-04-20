@@ -121,7 +121,7 @@ Route::stuff()
 
 ### Parameter aliases
 
-Some middleware will have different behaviour based on the type of values passed through to a specific parameter. As an example, Laravel's `ThrottleRequests` middleware allows you to optionally pass the name of a rate limiter to the `$maxAttempts` parameter.
+Some middleware will have different behaviour based on the type of values passed through to a specific parameter. As an example, Laravel's `ThrottleRequests` middleware allows you to pass the name of a rate limiter to the `$maxAttempts` parameter, instead of a numeric value, in order to utilise that named limiter on the endpoint.
 
 ```php
 <?php
@@ -132,7 +132,7 @@ RateLimiter::for('api', function (Request $request) {
     return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
 });
 
-// using the rate limiter...
+// using the rate limiter WITHOUT an alias...
 
 Route::stuff()
     ->middleware([
@@ -185,11 +185,17 @@ These validations occur whenever the routes file is loaded or compiled, not just
 
 #### Unexpected parameter
 
-The trait validates that you do not declare any keys that do not exist as parameter variables in the `handle()` method. This helps make sure you don't mis-type a parameter name.
+Ensures that you do not declare any keys that do not exist as parameter variables in the `handle()` method. This helps make sure you don't mis-type a parameter name.
 
 #### Required parameters
 
-Another validation that occurs is checking to make sure all required parameters (those without default values) have been provided.
+Ensures all required parameters (those without default values) have been provided.
+
+#### Aliases
+
+- Ensures all aliases specified reference an existing parameter.
+- Provided aliases don't reference the same parameter.
+- An original parameter key and an alias have not both be provided.
 
 ## Middleware::in()
 
