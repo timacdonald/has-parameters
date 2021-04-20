@@ -119,6 +119,66 @@ Route::stuff()
     ]);
 ```
 
+### Parameter aliases
+
+Some middleware will have different behaviour based on the type of values passed through to a specific parameter. As an example, Laravel's `ThrottleRequests` middleware allows you to optionally pass the name of a rate limiter to the `$maxAttempts` parameter.
+
+```php
+<?php
+
+// a named rate limiter...
+
+RateLimiter::for('api', function (Request $request) {
+    return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+});
+
+// using the rate limiter...
+
+Route::stuff()
+    ->middleware([
+        ThrottleRequests::with([
+            'maxAttempts' => 'api',
+        ]),
+    ]);
+```
+
+In this kind of scenario, it is nice to be able to alias the `$maxAttempts` parameter name to something more readable.
+
+```php
+<?php
+
+Route::stuff()
+    ->middleware([
+        ThrottleRequests::with([
+            'limiter' => 'api',
+        ]),
+    ]);
+```
+
+To achieve this, you can setup a parameter alias map in your middleware...
+
+```php
+<?php
+
+class ThrottleRequests
+{
+    use HasParameters;
+
+    public function handle($request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
+    {
+        //
+    }
+
+    protected static function parameterAliasMap(): array
+    {
+        return [
+            'limiter' => 'maxAttempts',
+            // 'alias' => 'parameter',
+        ];
+    }
+}
+```
+
 ### Validation
 
 These validations occur whenever the routes file is loaded or compiled, not just when you hit a route that contains the declaration.
