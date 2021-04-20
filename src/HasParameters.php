@@ -6,6 +6,7 @@ namespace TiMacDonald\Middleware;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use function method_exists;
 use ReflectionMethod;
 use ReflectionParameter;
 use TypeError;
@@ -234,7 +235,7 @@ trait HasParameters
 
     private static function validateAliasesDontPointToSameParamters(Collection $aliases): void
     {
-        if ($aliases->duplicates()->isNotEmpty()) {
+        if (static::duplicates($aliases)->isNotEmpty()) {
             throw new TypeError('Two provided aliases cannot point to the same parameter.');
         }
     }
@@ -244,5 +245,29 @@ trait HasParameters
         if ($aliases->flip()->diffKeys($parameters)->isNotEmpty()) {
             throw new TypeError('Aliases must reference existing parameters.');
         }
+    }
+
+    private static function duplicates(Collection $items): Collection
+    {
+        if (method_exists($items, 'duplicates')) {
+            return $items->duplicates();
+        }
+
+        // Copied from Collection::duplicates() v8.36.2 for backwards
+        // compatibility.
+
+        $uniqueItems = $items->unique(null);
+
+        $duplicates = new Collection();
+
+        foreach ($items as $key => $value) {
+            if ($uniqueItems->isNotEmpty() && $value === $uniqueItems->first()) {
+                $uniqueItems->shift();
+            } else {
+                $duplicates[$key] = $value;
+            }
+        }
+
+        return $duplicates;
     }
 }
