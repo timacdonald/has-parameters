@@ -289,18 +289,10 @@ class HasParametersTest extends TestCase
     {
         $result = Aliased::with([
             'aliasedFirst' => 'first',
+            'aliasedThird' => 'third',
             'originalSecond' => 'second',
         ]);
-        $this->assertSame('Tests\\Middleware\\Aliased:first,second', $result);
-    }
-
-    public function testParameterAliasesDontConflictWithOtherParameterNames(): void
-    {
-        $result = Aliased::with([
-            'aliasedFirst' => 'first',
-            'originalSecond' => 'second',
-        ]);
-        $this->assertSame('Tests\\Middleware\\Aliased:first,second', $result);
+        $this->assertSame('Tests\\Middleware\\Aliased:first,second,third', $result);
     }
 
     public function testParameterAliasesDontConflictWithOtherAliasNames(): void
@@ -360,7 +352,7 @@ class HasParametersTest extends TestCase
     public function testPassingOriginalAndAliasThrows(): void
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage('Cannot pass an original parameter and and aliases parameter name at the same time.');
+        $this->expectExceptionMessage('Cannot pass an original parameter and an aliases parameter name at the same time.');
 
         Aliased::with([
             'aliasedFirst' => 'aliasValue',

@@ -12,7 +12,7 @@ class Aliased
 {
     use HasParameters;
 
-    public function handle(Request $request, Closure $next, string $originalFirst, string $originalSecond): void
+    public function handle(Request $request, Closure $next, string $originalFirst, string $originalSecond, string $originalThird): void
     {
         //
     }
@@ -21,6 +21,7 @@ class Aliased
     {
         return [
             'aliasedFirst' => 'originalFirst',
+            'aliasedThird' => 'originalThird',
         ];
     }
 }
