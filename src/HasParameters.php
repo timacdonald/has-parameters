@@ -232,7 +232,7 @@ trait HasParameters
     private static function validateOriginalAndAliasHaveNotBeenPassed(Collection $arguments, Collection $aliases): void
     {
         if ($arguments->intersectByKeys($aliases->flip())->isNotEmpty()) {
-            throw new TypeError('Cannot pass an original parameter and and aliases parameter name at the same time.');
+            throw new TypeError('Cannot pass an original parameter and an aliases parameter name at the same time.');
         }
     }
 
