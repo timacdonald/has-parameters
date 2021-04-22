@@ -172,12 +172,15 @@ trait HasParameters
     {
         return $arguments->mapWithKeys(
             /** @param mixed $value */
-            static function ($value, string $key) use ($aliases): array {
-                if ($aliases->has($key)) {
-                    return [$aliases[$key] => $value];
+            static function ($value, string $name) use ($aliases): array {
+                if ($aliases->has($name)) {
+                    /** @var string */
+                    $newName = $aliases[$name];
+
+                    return [$newName => $value];
                 }
 
-                return [$key => $value];
+                return [$name => $value];
             }
         );
     }
@@ -261,6 +264,7 @@ trait HasParameters
 
         $duplicates = new Collection();
 
+        /** @var string $value */
         foreach ($items as $key => $value) {
             if ($uniqueItems->isNotEmpty() && $value === $uniqueItems->first()) {
                 $uniqueItems->shift();
