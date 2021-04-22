@@ -303,7 +303,7 @@ class HasParametersTest extends TestCase
         $middleware = new class() {
             use HasParameters;
 
-            public function handle(Request $request, Closure $next, string $original): void
+            public function handle(Request $request, Closure $next, string $original, string $anotherOne): void
             {
                 //
             }
@@ -313,6 +313,7 @@ class HasParametersTest extends TestCase
                 return [
                     'firstAlias' => 'original',
                     'secondAlias' => 'original',
+                    'thirdAlias' => 'anotherOne',
                 ];
             }
         };
