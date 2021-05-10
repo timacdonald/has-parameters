@@ -6,7 +6,3 @@ updates:
     interval: daily
     time: "19:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: infection/infection
-    versions:
-    - "0.18"
