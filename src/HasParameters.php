@@ -6,7 +6,6 @@ namespace TiMacDonald\Middleware;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use function method_exists;
 use ReflectionMethod;
 use ReflectionParameter;
 use TypeError;
@@ -255,10 +254,6 @@ trait HasParameters
         // Copied from Collection::duplicates() v8.36.2 for backwards
         // compatibility. This could probably be a macro or an extended class,
         // but feels like overkill for this single file package right now.
-
-        if (method_exists($items, 'duplicates')) {
-            return $items->duplicates();
-        }
 
         $uniqueItems = $items->unique(null);
 
