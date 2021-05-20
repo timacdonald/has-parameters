@@ -28,7 +28,7 @@ trait HasParameters
         if ($aliases->isNotEmpty()) {
             static::validateAliasesReferenceParameters($parameters, $aliases);
 
-            static::validateAliasesDontPointToSameParamters($aliases);
+            static::validateAliasesDontPointToSameParameters($aliases);
 
             static::validateOriginalAndAliasHaveNotBeenPassed($arguments, $aliases);
 
