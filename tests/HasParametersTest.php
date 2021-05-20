@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Closure;
 use ErrorException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;
 use const PHP_MAJOR_VERSION;
+use Tests\Middleware\Aliased;
 use Tests\Middleware\Basic;
 use Tests\Middleware\Optional;
 use Tests\Middleware\OptionalRequired;
 use Tests\Middleware\Required;
 use Tests\Middleware\RequiredOptionalVariadic;
 use Tests\Middleware\Variadic;
+use TiMacDonald\Middleware\HasParameters;
 use TypeError;
 
 /**
@@ -279,5 +283,82 @@ class HasParametersTest extends TestCase
     {
         $result = Optional::in(['laravel', 'vue', 'tailwind']);
         $this->assertSame('Tests\\Middleware\\Optional:laravel,vue,tailwind', $result);
+    }
+
+    public function testParametersCanBeAliased(): void
+    {
+        $result = Aliased::with([
+            'aliasedFirst' => 'first',
+            'aliasedThird' => 'third',
+            'originalSecond' => 'second',
+        ]);
+        $this->assertSame('Tests\\Middleware\\Aliased:first,second,third', $result);
+    }
+
+    public function testParameterAliasesDontConflictWithOtherAliasNames(): void
+    {
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage('Two provided aliases cannot point to the same parameter.');
+
+        $middleware = new class() {
+            use HasParameters;
+
+            public function handle(Request $request, Closure $next, string $original, string $anotherOne): void
+            {
+                //
+            }
+
+            private static function parameterAliasMap(): array
+            {
+                return [
+                    'firstAlias' => 'original',
+                    'secondAlias' => 'original',
+                    'fourthAlias' => 'anotherOne',
+                ];
+            }
+        };
+
+        $middleware::with([
+            'firstAlias' => 'xxxx',
+            'secondAlias' => 'xxxx',
+        ]);
+    }
+
+    public function testAliasesReferenceActualParameters(): void
+    {
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage('Aliases must reference existing parameters.');
+
+        $middleware = new class() {
+            use HasParameters;
+
+            public function handle(Request $request, Closure $next, string $original): void
+            {
+                //
+            }
+
+            private static function parameterAliasMap(): array
+            {
+                return [
+                    'firstAlias' => 'doesntExist',
+                ];
+            }
+        };
+
+        $middleware::with([
+            'firstAlias' => 'xxxx',
+        ]);
+    }
+
+    public function testPassingOriginalAndAliasThrows(): void
+    {
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage('Cannot pass an original parameter and an aliases parameter name at the same time.');
+
+        Aliased::with([
+            'aliasedFirst' => 'aliasValue',
+            'originalFirst' => 'originalValue',
+            'originalSecond' => 'second',
+        ]);
     }
 }

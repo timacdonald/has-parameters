@@ -119,17 +119,83 @@ Route::stuff()
     ]);
 ```
 
+### Parameter aliases
+
+Some middleware will have different behaviour based on the type of values passed through to a specific parameter. As an example, Laravel's `ThrottleRequests` middleware allows you to pass the name of a rate limiter to the `$maxAttempts` parameter, instead of a numeric value, in order to utilise that named limiter on the endpoint.
+
+```php
+<?php
+
+// a named rate limiter...
+
+RateLimiter::for('api', function (Request $request) {
+    return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+});
+
+// using the rate limiter WITHOUT an alias...
+
+Route::stuff()
+    ->middleware([
+        ThrottleRequests::with([
+            'maxAttempts' => 'api',
+        ]),
+    ]);
+```
+
+In this kind of scenario, it is nice to be able to alias the `$maxAttempts` parameter name to something more readable.
+
+```php
+<?php
+
+Route::stuff()
+    ->middleware([
+        ThrottleRequests::with([
+            'limiter' => 'api',
+        ]),
+    ]);
+```
+
+To achieve this, you can setup a parameter alias map in your middleware...
+
+```php
+<?php
+
+class ThrottleRequests
+{
+    use HasParameters;
+
+    public function handle($request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
+    {
+        //
+    }
+
+    private static function parameterAliasMap(): array
+    {
+        return [
+            'limiter' => 'maxAttempts',
+            // 'alias' => 'parameter',
+        ];
+    }
+}
+```
+
 ### Validation
 
 These validations occur whenever the routes file is loaded or compiled, not just when you hit a route that contains the declaration.
 
 #### Unexpected parameter
 
-The trait validates that you do not declare any keys that do not exist as parameter variables in the `handle()` method. This helps make sure you don't mis-type a parameter name.
+Ensures that you do not declare any keys that do not exist as parameter variables in the `handle()` method. This helps make sure you don't mis-type a parameter name.
 
 #### Required parameters
 
-Another validation that occurs is checking to make sure all required parameters (those without default values) have been provided.
+Ensures all required parameters (those without default values) have been provided.
+
+#### Aliases
+
+- Ensures all aliases specified reference an existing parameter.
+- Provided aliases don't reference the same parameter.
+- An original parameter key and an alias have not both been provided.
 
 ## Middleware::in()
 
