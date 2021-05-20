@@ -17,7 +17,7 @@ class Aliased
         //
     }
 
-    protected static function parameterAliasMap(): array
+    private static function parameterAliasMap(): array
     {
         return [
             'aliasedFirst' => 'originalFirst',

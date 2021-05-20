@@ -169,7 +169,7 @@ class ThrottleRequests
         //
     }
 
-    protected static function parameterAliasMap(): array
+    private static function parameterAliasMap(): array
     {
         return [
             'limiter' => 'maxAttempts',
@@ -195,7 +195,7 @@ Ensures all required parameters (those without default values) have been provide
 
 - Ensures all aliases specified reference an existing parameter.
 - Provided aliases don't reference the same parameter.
-- An original parameter key and an alias have not both be provided.
+- An original parameter key and an alias have not both been provided.
 
 ## Middleware::in()
 

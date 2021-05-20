@@ -308,7 +308,7 @@ class HasParametersTest extends TestCase
                 //
             }
 
-            protected static function parameterAliasMap(): array
+            private static function parameterAliasMap(): array
             {
                 return [
                     'firstAlias' => 'original',
@@ -337,7 +337,7 @@ class HasParametersTest extends TestCase
                 //
             }
 
-            protected static function parameterAliasMap(): array
+            private static function parameterAliasMap(): array
             {
                 return [
                     'firstAlias' => 'doesntExist',
