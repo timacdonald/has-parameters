@@ -63,6 +63,8 @@ trait HasParameters
     }
 
     /**
+     * @psalm-suppress ProtectedVisibility
+     *
      * @return array<string, string>
      */
     protected static function parameterAliasMap(): array
