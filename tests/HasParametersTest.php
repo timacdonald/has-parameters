@@ -313,7 +313,7 @@ class HasParametersTest extends TestCase
                 return [
                     'firstAlias' => 'original',
                     'secondAlias' => 'original',
-                    'thirdAlias' => 'anotherOne',
+                    'fourthAlias' => 'anotherOne',
                 ];
             }
         };
