@@ -237,9 +237,9 @@ trait HasParameters
         }
     }
 
-    private static function validateAliasesDontPointToSameParamters(Collection $aliases): void
+    private static function validateAliasesDontPointToSameParameters(Collection $aliases): void
     {
-        if (static::duplicates($aliases)->isNotEmpty()) {
+        if ($aliases->unique()->count() !== $aliases->count()) {
             throw new TypeError('Two provided aliases cannot point to the same parameter.');
         }
     }
@@ -249,27 +249,5 @@ trait HasParameters
         if ($aliases->flip()->diffKeys($parameters)->isNotEmpty()) {
             throw new TypeError('Aliases must reference existing parameters.');
         }
-    }
-
-    private static function duplicates(Collection $items): Collection
-    {
-        // Copied from Collection::duplicates() v8.36.2 for backwards
-        // compatibility. This could probably be a macro or an extended class,
-        // but feels like overkill for this single file package right now.
-
-        $uniqueItems = $items->unique(null);
-
-        $duplicates = new Collection();
-
-        /** @var string $value */
-        foreach ($items as $key => $value) {
-            if ($uniqueItems->isNotEmpty() && $value === $uniqueItems->first()) {
-                $uniqueItems->shift();
-            } else {
-                $duplicates[$key] = $value;
-            }
-        }
-
-        return $duplicates;
     }
 }
