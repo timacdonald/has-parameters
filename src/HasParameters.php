@@ -19,29 +19,29 @@ trait HasParameters
     {
         $arguments = new Collection($arguments);
 
-        $parameters = static::parameters();
+        $parameters = self::parameters();
 
-        static::validateArgumentMapIsAnAssociativeArray($arguments);
+        self::validateArgumentMapIsAnAssociativeArray($arguments);
 
         $aliases = new Collection(static::parameterAliasMap());
 
         if ($aliases->isNotEmpty()) {
-            static::validateAliasesReferenceParameters($parameters, $aliases);
+            self::validateAliasesReferenceParameters($parameters, $aliases);
 
-            static::validateAliasesDontPointToSameParameters($aliases);
+            self::validateAliasesDontPointToSameParameters($aliases);
 
-            static::validateOriginalAndAliasHaveNotBeenPassed($arguments, $aliases);
+            self::validateOriginalAndAliasHaveNotBeenPassed($arguments, $aliases);
 
-            $arguments = static::normaliseArguments($arguments, $aliases);
+            $arguments = self::normaliseArguments($arguments, $aliases);
         }
 
-        static::validateNoUnexpectedArguments($parameters, $arguments);
+        self::validateNoUnexpectedArguments($parameters, $arguments);
 
-        static::validateParametersAreOptional($parameters->diffKeys($arguments));
+        self::validateParametersAreOptional($parameters->diffKeys($arguments));
 
-        $arguments = static::parseArgumentMap($parameters, new Collection($arguments));
+        $arguments = self::parseArgumentMap($parameters, new Collection($arguments));
 
-        return static::formatArguments($arguments);
+        return self::formatArguments($arguments);
     }
 
     /**
@@ -51,15 +51,15 @@ trait HasParameters
     {
         $arguments = new Collection($arguments);
 
-        $parameters = static::parameters();
+        $parameters = self::parameters();
 
-        static::validateArgumentListIsNotAnAssociativeArray($arguments);
+        self::validateArgumentListIsNotAnAssociativeArray($arguments);
 
-        static::validateParametersAreOptional($parameters->slice($arguments->count()));
+        self::validateParametersAreOptional($parameters->slice($arguments->count()));
 
-        $arguments = static::parseArgumentList($arguments);
+        $arguments = self::parseArgumentList($arguments);
 
-        return static::formatArguments($arguments);
+        return self::formatArguments($arguments);
     }
 
     /**
@@ -90,7 +90,7 @@ trait HasParameters
              * @param mixed $argument
              */
             static function ($argument): string {
-                return static::castToString($argument);
+                return self::castToString($argument);
             }
         );
     }
@@ -99,10 +99,10 @@ trait HasParameters
     {
         return $parameters->map(static function (ReflectionParameter $parameter) use ($arguments): ?string {
             if ($parameter->isVariadic()) {
-                return static::parseVariadicArgument($parameter, $arguments);
+                return self::parseVariadicArgument($parameter, $arguments);
             }
 
-            return static::parseStandardArgument($parameter, $arguments);
+            return self::parseStandardArgument($parameter, $arguments);
         })->reject(static function (?string $argument): bool {
             /**
              * A null value indicates that the last item in the parameter list
@@ -132,7 +132,7 @@ trait HasParameters
              * @param mixed $value
              */
             static function ($value) {
-                return static::castToString($value);
+                return self::castToString($value);
             }
         )->implode(',');
     }
@@ -140,10 +140,10 @@ trait HasParameters
     private static function parseStandardArgument(ReflectionParameter $parameter, Collection $arguments): string
     {
         if ($arguments->has($parameter->getName())) {
-            return static::castToString($arguments->get($parameter->getName()));
+            return self::castToString($arguments->get($parameter->getName()));
         }
 
-        return static::castToString($parameter->getDefaultValue());
+        return self::castToString($parameter->getDefaultValue());
     }
 
     private static function parameters(): Collection
