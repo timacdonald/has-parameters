@@ -63,9 +63,11 @@ trait HasParameters
     }
 
     /**
+     * @infection-ignore-all
+     *
      * @return array<string, string>
      */
-    private static function parameterAliasMap(): array
+    protected static function parameterAliasMap(): array
     {
         return [
             // 'alias' => 'parameter',

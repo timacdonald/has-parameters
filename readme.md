@@ -169,7 +169,7 @@ class ThrottleRequests
         //
     }
 
-    private static function parameterAliasMap(): array
+    protected static function parameterAliasMap(): array
     {
         return [
             'limiter' => 'maxAttempts',
