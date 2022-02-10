@@ -9,7 +9,6 @@ use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;
-use const PHP_MAJOR_VERSION;
 use Tests\Middleware\Aliased;
 use Tests\Middleware\Basic;
 use Tests\Middleware\Optional;
@@ -19,6 +18,7 @@ use Tests\Middleware\RequiredOptionalVariadic;
 use Tests\Middleware\Variadic;
 use TiMacDonald\Middleware\HasParameters;
 use TypeError;
+use const PHP_MAJOR_VERSION;
 
 /**
  * @small
@@ -300,7 +300,7 @@ class HasParametersTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Two provided aliases cannot point to the same parameter.');
 
-        $middleware = new class() {
+        $middleware = new class () {
             use HasParameters;
 
             public function handle(Request $request, Closure $next, string $original, string $anotherOne): void
@@ -329,7 +329,7 @@ class HasParametersTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Aliases must reference existing parameters.');
 
-        $middleware = new class() {
+        $middleware = new class () {
             use HasParameters;
 
             public function handle(Request $request, Closure $next, string $original): void
