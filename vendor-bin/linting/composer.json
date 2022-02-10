@@ -8,5 +8,8 @@
         "allow-plugins": {
             "ergebnis/composer-normalize": true
         }
+    },
+    "require": {
+        "friendsofphp/php-cs-fixer": "^3.6"
     }
 }
