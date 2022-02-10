@@ -1,13 +1,13 @@
 {
     "name": "timacdonald/has-parameters",
     "description": "A trait that allows you to pass arguments to Laravel middleware in a more PHP'ish way.",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "middleware",
         "parameters",
         "arguments"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Tim MacDonald",
@@ -15,23 +15,26 @@
             "homepage": "https://timacdonald.me"
         }
     ],
+    "support": {
+        "issues": "https://github.com/timacdonald/has-parameters/issues",
+        "source": "https://github.com/timacdonald/has-parameters/releases/latest",
+        "docs": "https://github.com/timacdonald/has-parameters/blob/master/readme.md"
+    },
     "require": {
         "php": "^7.1 || ^8.0",
-        "illuminate/support": "~5.5.0 || ~5.6.0 || ~5.7.0 || ~5.8.0 || ^6.0 || ^7.0 || ^8.0|^9.0"
+        "illuminate/support": "~5.5.0 || ~5.6.0 || ~5.7.0 || ~5.8.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.0",
-        "infection/infection": "^0.25|^0.26",
-        "orchestra/testbench": "^6.0|^7.0",
-        "phpstan/phpstan": "^0.12|^1.4",
+        "infection/infection": "^0.25 || ^0.26",
+        "orchestra/testbench": "^6.0 || ^7.0",
+        "phpstan/phpstan": "^0.12 || ^1.4",
         "phpunit/phpunit": "^9.0",
         "timacdonald/php-style": "dev-master",
         "vimeo/psalm": "^4.0"
     },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "TiMacDonald\\Middleware\\": "src"
@@ -42,8 +45,14 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "ergebnis/composer-normalize": true
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
     "scripts": {
         "fix": [
             "clear",
@@ -62,10 +71,5 @@
             "./vendor/bin/phpunit",
             "./vendor/bin/infection --threads=8"
         ]
-    },
-    "support": {
-        "issues": "https://github.com/timacdonald/has-parameters/issues",
-        "source": "https://github.com/timacdonald/has-parameters/releases/latest",
-        "docs": "https://github.com/timacdonald/has-parameters/blob/master/readme.md"
     }
 }
