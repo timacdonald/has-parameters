@@ -6,3 +6,15 @@ updates:
     interval: daily
     time: "19:00"
   open-pull-requests-limit: 10
+- package-ecosystem: composer
+  directory: "/vendor-bin/linting"
+  schedule:
+    interval: daily
+    time: "19:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: composer
+  directory: "/vendor-bin/testing"
+  schedule:
+    interval: daily
+    time: "19:00"
+  open-pull-requests-limit: 10
