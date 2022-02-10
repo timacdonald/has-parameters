@@ -56,12 +56,10 @@
         ],
         "fix": [
             "clear",
-            "@composer normalize",
             "./vendor/bin/php-cs-fixer fix"
         ],
         "lint": [
             "clear",
-            "@composer normalize --dry-run",
             "./vendor/bin/php-cs-fixer fix --dry-run",
             "./vendor/bin/psalm --threads=8",
             "./vendor/bin/phpstan analyse"

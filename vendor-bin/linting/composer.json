@@ -1,13 +1,7 @@
 {
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.23",
         "phpstan/phpstan": "^1.4",
         "vimeo/psalm": "^4.20"
-    },
-    "config": {
-        "allow-plugins": {
-            "ergebnis/composer-normalize": true
-        }
     },
     "require": {
         "friendsofphp/php-cs-fixer": "^3.6"
