@@ -1,5 +1,5 @@
 {
-    "require-dev": {
+    "require": {
         "infection/infection": "^0.26.4",
         "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5"

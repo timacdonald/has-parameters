@@ -124,6 +124,8 @@ jobs:
 
             - name: Install dependencies
               run: |
+                  composer bin linting remove friendsofphp/php-cs-fixer
+                  composer bin testing remove infection/infection
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
             - name: Check platform requirements
