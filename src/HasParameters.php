@@ -13,7 +13,7 @@ use TypeError;
 trait HasParameters
 {
     /**
-     * @param mixed $arguments
+     * @param array $arguments
      */
     public static function with($arguments): string
     {
@@ -23,7 +23,10 @@ trait HasParameters
 
         self::validateArgumentMapIsAnAssociativeArray($arguments);
 
-        $aliases = new Collection(static::parameterAliasMap());
+        $aliases = new Collection(
+            /** @phpstan-ignore-next-line */
+            static::parameterAliasMap()
+        );
 
         if ($aliases->isNotEmpty()) {
             self::validateAliasesReferenceParameters($parameters, $aliases);
@@ -45,7 +48,7 @@ trait HasParameters
     }
 
     /**
-     * @param mixed $arguments
+     * @param array $arguments
      */
     public static function in($arguments): string
     {

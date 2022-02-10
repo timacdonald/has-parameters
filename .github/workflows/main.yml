@@ -50,9 +50,6 @@ jobs:
               env:
                   INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
-            - name: Psalm
-              run: ./vendor/bin/psalm --shepherd --no-progress
-
             - name: PHPStan
               run: ./vendor/bin/phpstan --no-interaction --verbose
 
@@ -127,7 +124,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer remove 'infection/infection' 'phpunit/phpunit' 'orchestra/testbench' 'orchestra/testbench' 'phpstan/phpstan' 'phpunit/phpunit' 'timacdonald/php-style' 'vimeo/psalm' --dev --no-update --no-interaction --verbose
+                  composer remove 'infection/infection' 'phpunit/phpunit' 'orchestra/testbench' 'orchestra/testbench' 'phpstan/phpstan' 'phpunit/phpunit' 'timacdonald/php-style' --dev --no-update --no-interaction --verbose
                   composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose
                   composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
 
