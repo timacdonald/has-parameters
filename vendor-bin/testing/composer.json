@@ -1,0 +1,12 @@
+{
+    "require-dev": {
+        "infection/infection": "^0.26.4",
+        "orchestra/testbench": "^7.0",
+        "phpunit/phpunit": "^9.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    }
+}
