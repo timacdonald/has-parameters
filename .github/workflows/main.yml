@@ -120,7 +120,7 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v3
+                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v4
 
             - name: Install dependencies
               run: |
