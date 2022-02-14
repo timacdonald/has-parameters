@@ -38,9 +38,6 @@ jobs:
             - name: PHP-CS-Fixer
               run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
 
-            - name: composer normalize
-              run: composer normalize --dry-run --no-interaction --verbose
-
             - name: test coverage
               run: |
                   ./vendor/bin/phpunit --coverage-clover=coverage.xml --debug --verbose
@@ -53,9 +50,6 @@ jobs:
               env:
                   INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
-            - name: Psalm
-              run: ./vendor/bin/psalm --shepherd --no-progress
-
             - name: PHPStan
               run: ./vendor/bin/phpstan --no-interaction --verbose
 
@@ -65,7 +59,7 @@ jobs:
         strategy:
             matrix:
                 php: ['7.1', '7.2', '7.3', '7.4', '8.0']
-                laravel: ['~5.5.0', '~5.6.0', '~5.7.0', '~5.8.0', '^6.0', '^7.0', '^8.0']
+                laravel: ['~5.5.0', '~5.6.0', '~5.7.0', '~5.8.0', '^6.0', '^7.0', '^8.0', '^9.0']
                 dependency-version: ['prefer-lowest', 'prefer-stable']
                 include:
                     - laravel: '~5.5.0'
@@ -82,6 +76,8 @@ jobs:
                       testbench: '^5.0'
                     - laravel: '^8.0'
                       testbench: '^6.0'
+                    - laravel: '^9.0'
+                      testbench: '^7.0'
                 exclude:
                     - laravel: '~5.3.0'
                       php: '7.2'
@@ -101,6 +97,14 @@ jobs:
                       php: '7.1'
                     - laravel: '^8.0'
                       php: '7.2'
+                    - laravel: '^9.0'
+                      php: '7.1'
+                    - laravel: '^9.0'
+                      php: '7.2'
+                    - laravel: '^9.0'
+                      php: '7.3'
+                    - laravel: '^9.0'
+                      php: '7.4'
 
         steps:
             - name: checkout code
@@ -116,13 +120,12 @@ jobs:
               uses: actions/cache@v1
               with:
                   path: ~/.composer/cache/files
-                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v3
+                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v4
 
             - name: Install dependencies
               run: |
-                  composer remove 'infection/infection' 'phpunit/phpunit' 'ergebnis/composer-normalize' 'orchestra/testbench' 'orchestra/testbench' 'phpstan/phpstan' 'phpunit/phpunit' 'timacdonald/php-style' 'vimeo/psalm' --dev --no-update --no-interaction --verbose
-                  composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose
-                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
+                  composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose --no-scripts
+                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose --no-scripts
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose

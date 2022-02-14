@@ -11,7 +11,7 @@ Read more about the why in my blog post [Rethinking Laravel's middleware argumen
 ## Version support
 
 - **PHP**: 7.1, 7.2, 7.3, 7.4, 8.0
-- **Laravel**: 5.5, 5.6, 5.7, 5.8, 6.0, 7.0, 8.0
+- **Laravel**: 5.5, 5.6, 5.7, 5.8, 6.0, 7.0, 8.0, 9.0
 
 ## Installation
 

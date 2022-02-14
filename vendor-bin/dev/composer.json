@@ -1,0 +1,14 @@
+{
+    "require": {
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "infection/infection": "^0.26.4",
+        "orchestra/testbench": "^7.0",
+        "phpstan/phpstan": "^1.4",
+        "phpunit/phpunit": "^9.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    }
+}

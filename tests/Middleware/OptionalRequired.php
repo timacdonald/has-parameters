@@ -6,8 +6,8 @@ namespace Tests\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use const PHP_MAJOR_VERSION;
 use TiMacDonald\Middleware\HasParameters;
+use const PHP_MAJOR_VERSION;
 
 // Cannot have optional parameter before required parameter in PHP >=8.0.
 if (PHP_MAJOR_VERSION < 8) {

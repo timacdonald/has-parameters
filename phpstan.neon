@@ -1,8 +1,6 @@
 parameters:
     checkMissingIterableValueType: false
-    level: max
+    checkGenericClassInNonGenericObjectType: false
+    level: 8
     paths:
         - src
-        - tests
-    excludePaths:
-        - tests/Middleware/OptionalRequired.php

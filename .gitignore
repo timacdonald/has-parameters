@@ -4,3 +4,6 @@
 /.php_cs.cache
 /coverage
 /infection.log
+/vendor-bin/*/vendor
+/vendor-bin/*/composer.lock
+/.php-cs-fixer.cache
