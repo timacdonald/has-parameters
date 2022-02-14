@@ -2,7 +2,7 @@
 
 # Has Parameters
 
-![CI](https://github.com/timacdonald/has-parameters/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/timacdonald/has-parameters/branch/master/graph/badge.svg)](https://codecov.io/gh/timacdonald/has-parameters) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fhas-parameters%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/has-parameters/master) ![Type coverage](https://shepherd.dev/github/timacdonald/has-parameters/coverage.svg)
+![CI](https://github.com/timacdonald/has-parameters/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/timacdonald/has-parameters/branch/master/graph/badge.svg)](https://codecov.io/gh/timacdonald/has-parameters) [![Mutation testing](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ftimacdonald%2Fhas-parameters%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/timacdonald/has-parameters/master)
 
 A trait for Laravel middleware that allows you to pass arguments in a more PHP'ish way, including as a key => value pair for named parameters,  and as a list for variadic parameters. Improves static analysis / IDE support, allows you to specify arguments by referencing the parameter name, enables skipping optional parameters (which fallback to their default value), and adds some validation so you don't forget any required parameters by accident.
 
