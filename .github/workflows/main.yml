@@ -124,9 +124,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer bin linting remove friendsofphp/php-cs-fixer
-                  composer bin testing remove infection/infection
-                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose
+                  composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose --no-scripts
+                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose --no-scripts
 
             - name: Check platform requirements
               run: composer check-platform-reqs --verbose
