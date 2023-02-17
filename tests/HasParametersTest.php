@@ -18,6 +18,7 @@ use Tests\Middleware\RequiredOptionalVariadic;
 use Tests\Middleware\Variadic;
 use TiMacDonald\Middleware\HasParameters;
 use TypeError;
+
 use const PHP_MAJOR_VERSION;
 
 /**
