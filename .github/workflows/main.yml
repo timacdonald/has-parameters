@@ -94,6 +94,10 @@ jobs:
         if: ${{ matrix.php == 8.1 && matrix.prefer == 'prefer-lowest' }}
         run: composer require --no-update --no-scripts phpunit/phpunit:">=9.0" symfony/http-foundation:">=5.3.7" illuminate/http:">=8.62.0" nesbot/carbon:">=2.51.0"
 
+      - name: Setup PHPUnit configuration
+        if: matrix.phpunit == '^9.0'
+        run: cp --force phpunit.9.xml.dist phpunit.xml.dist
+
       - name: Install dependencies
         run: |
           composer require --no-update 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}'
