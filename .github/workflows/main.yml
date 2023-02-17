@@ -1,9 +1,6 @@
 name: CI
 
 on:
-    schedule:
-        # once a month
-        - cron: '0 0 1 * *'
     push:
         branches: [ master ]
     pull_request:
@@ -15,7 +12,18 @@ jobs:
         name: 'Lint'
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
+
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache dependencies
+              uses: actions/cache@v3
+              with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ matrix.prefer }}-${{ hashFiles('**/composer.json') }}
+                restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -23,134 +31,76 @@ jobs:
                   php-version: '8.1'
                   coverage: pcov
 
-            - name: Cache dependencies
-              uses: actions/cache@v1
-              with:
-                  path: ~/.composer/cache/files
-                  key: dependencies-composer-${{ hashFiles('composer.json') }}-v3
-
             - name: Install dependencies
-              run: composer install --no-suggest --no-interaction --verbose
+              run: composer install
 
             - name: Check platform requirements
-              run: composer check-platform-reqs --verbose
+              run: composer check-platform-reqs
 
             - name: PHP-CS-Fixer
-              run: ./vendor/bin/php-cs-fixer fix --dry-run --no-interaction --verbose
+              run: ./vendor/bin/php-cs-fixer fix --dry-run
 
             - name: test coverage
               run: |
-                  ./vendor/bin/phpunit --coverage-clover=coverage.xml --debug --verbose
+                  ./vendor/bin/phpunit --coverage-clover=coverage.xml
                   bash <(curl -s https://codecov.io/bash)
               env:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
             - name: Infection
-              run: ./vendor/bin/infection --show-mutations --min-msi=100 --no-progress --no-interaction --verbose
+              run: ./vendor/bin/infection --min-msi=100
               env:
                   INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
             - name: PHPStan
-              run: ./vendor/bin/phpstan --no-interaction --verbose
+              run: ./vendor/bin/phpstan
 
     tests:
         runs-on: ubuntu-latest
-        name: 'Test suite on PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Dependecies: ${{ matrix.dependency-version }}'
+        name: 'PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Prefer: ${{ matrix.prefer }}'
         strategy:
             matrix:
-                php: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
-                laravel: ['~5.5.0', '~5.6.0', '~5.7.0', '~5.8.0', '^6.0', '^7.0', '^8.0', '^9.0']
-                dependency-version: ['prefer-lowest', 'prefer-stable']
+                php: ['8.1', '8.2']
+                laravel: ['^9.0', '^10.0']
+                prefer: ['prefer-lowest', 'prefer-stable']
                 include:
-                    - laravel: '~5.5.0'
-                      testbench: '~3.5.0'
-                    - laravel: '~5.6.0'
-                      testbench: '~3.6.0'
-                    - laravel: '~5.7.0'
-                      testbench: '~3.7.0'
-                    - laravel: '~5.8.0'
-                      testbench: '~3.8.0'
-                    - laravel: '^6.0'
-                      testbench: '^4.0'
-                    - laravel: '^7.0'
-                      testbench: '^5.0'
-                    - laravel: '^8.0'
-                      testbench: '^6.0'
                     - laravel: '^9.0'
                       testbench: '^7.0'
-                exclude:
-                    - laravel: '~5.5.0'
-                      php: '7.4'
-                    - laravel: '~5.5.0'
-                      php: '8.0'
-                    - laravel: '~5.5.0'
-                      php: '8.1'
-                    - laravel: '~5.6.0'
-                      php: '7.3'
-                    - laravel: '~5.6.0'
-                      php: '7.4'
-                    - laravel: '~5.6.0'
-                      php: '8.0'
-                    - laravel: '~5.6.0'
-                      php: '8.1'
-                    - laravel: '~5.7.0'
-                      php: '7.4'
-                    - laravel: '~5.7.0'
-                      php: '8.0'
-                    - laravel: '~5.7.0'
-                      php: '8.1'
-                    - laravel: '~5.8.0'
-                      php: '8.0'
-                    - laravel: '~5.8.0'
-                      php: '8.1'
-                    - laravel: '^6.0'
-                      php: '7.1'
-                    - laravel: '^6.0'
-                      php: '8.1'
-                    - laravel: '^7.0'
-                      php: '7.1'
-                    - laravel: '^7.0'
-                      php: '8.1'
-                    - laravel: '^8.0'
-                      php: '7.1'
-                    - laravel: '^8.0'
-                      php: '7.2'
-                    - laravel: '^9.0'
-                      php: '7.1'
-                    - laravel: '^9.0'
-                      php: '7.2'
-                    - laravel: '^9.0'
-                      php: '7.3'
-                    - laravel: '^9.0'
-                      php: '7.4'
+                    - laravel: '^10.0'
+                      testbench: '^8.0'
 
         steps:
             - name: checkout code
               uses: actions/checkout@v2
 
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache dependencies
+              uses: actions/cache@v3
+              with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-${{ hashFiles('**/composer.json') }}
+                restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-
+
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php }}
-                  coverage: none
-
-            - name: Cache dependencies
-              uses: actions/cache@v1
-              with:
-                  path: ~/.composer/cache/files
-                  key: dependencies-${{ matrix.dependency-version }}-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}-v4
+                php-version: ${{ matrix.php }}
+                coverage: none
 
             - name: Support prefer-lowest in PHP 8.1
-              if: ${{ matrix.php == 8.1 && matrix.dependency-version == 'prefer-lowest' }}
-              run: composer require phpunit/phpunit:">=9.0" symfony/http-foundation:">=5.3.7" illuminate/http:">=8.62.0" nesbot/carbon:">=2.51.0" --no-interaction --no-update --verbose --no-scripts
+              if: ${{ matrix.php == 8.1 && matrix.prefer == 'prefer-lowest' }}
+              run: composer require --no-update --no-scripts phpunit/phpunit:">=9.0" symfony/http-foundation:">=5.3.7" illuminate/http:">=8.62.0" nesbot/carbon:">=2.51.0"
 
             - name: Install dependencies
               run: |
-                  composer require 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction --verbose --no-scripts
-                  composer update --${{ matrix.dependency-version }} --no-suggest --no-interaction --verbose --no-scripts
+                  composer require --no-update 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}'
+                  composer update --${{ matrix.prefer }} --no-scripts
 
             - name: Check platform requirements
-              run: composer check-platform-reqs --verbose
+              run: composer check-platform-reqs
 
             - name: Run tests
-              run: ./vendor/bin/phpunit --debug --verbose
+              run: ./vendor/bin/phpunit
