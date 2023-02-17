@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TiMacDonald\Middleware;
 
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ReflectionMethod;
