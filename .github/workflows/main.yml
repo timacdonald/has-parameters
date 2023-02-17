@@ -3,8 +3,8 @@ name: CI
 on:
   push:
     branches: [ master ]
-    pull_request:
-      branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   lint:
@@ -55,52 +55,52 @@ jobs:
       - name: PHPStan
         run: ./vendor/bin/phpstan
 
-    tests:
-      runs-on: ubuntu-latest
-      name: 'PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Prefer: ${{ matrix.prefer }}'
-      strategy:
-        matrix:
-          php: ['8.1', '8.2']
-          laravel: ['^9.0', '^10.0']
-          prefer: ['prefer-lowest', 'prefer-stable']
-          include:
-            - laravel: '^9.0'
-              testbench: '^7.0'
-            - laravel: '^10.0'
-              testbench: '^8.0'
+  tests:
+    runs-on: ubuntu-latest
+    name: 'PHP: ${{ matrix.php }}; Laravel: ${{ matrix.laravel }}; Prefer: ${{ matrix.prefer }}'
+    strategy:
+      matrix:
+        php: ['8.1', '8.2']
+        laravel: ['^9.0', '^10.0']
+        prefer: ['prefer-lowest', 'prefer-stable']
+        include:
+          - laravel: '^9.0'
+            testbench: '^7.0'
+          - laravel: '^10.0'
+            testbench: '^8.0'
 
-        steps:
-          - name: checkout code
-            uses: actions/checkout@v2
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
 
-          - name: Get composer cache directory
-            id: composer-cache
-            run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-          - name: Cache dependencies
-            uses: actions/cache@v3
-            with:
-              path: ${{ steps.composer-cache.outputs.dir }}
-              key: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-${{ hashFiles('**/composer.json') }}
-              restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-php-${{ matrix.php }}-phpunit-${{ matrix.phpunit }}-
 
-          - name: Setup PHP
-            uses: shivammathur/setup-php@v2
-            with:
-              php-version: ${{ matrix.php }}
-              coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
 
-          - name: Support prefer-lowest in PHP 8.1
-            if: ${{ matrix.php == 8.1 && matrix.prefer == 'prefer-lowest' }}
-            run: composer require --no-update --no-scripts phpunit/phpunit:">=9.0" symfony/http-foundation:">=5.3.7" illuminate/http:">=8.62.0" nesbot/carbon:">=2.51.0"
+      - name: Support prefer-lowest in PHP 8.1
+        if: ${{ matrix.php == 8.1 && matrix.prefer == 'prefer-lowest' }}
+        run: composer require --no-update --no-scripts phpunit/phpunit:">=9.0" symfony/http-foundation:">=5.3.7" illuminate/http:">=8.62.0" nesbot/carbon:">=2.51.0"
 
-          - name: Install dependencies
-            run: |
-              composer require --no-update 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}'
-              composer update --${{ matrix.prefer }} --no-scripts
+      - name: Install dependencies
+        run: |
+          composer require --no-update 'illuminate/support:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}'
+          composer update --${{ matrix.prefer }} --no-scripts
 
-          - name: Check platform requirements
-            run: composer check-platform-reqs
+      - name: Check platform requirements
+        run: composer check-platform-reqs
 
-          - name: Run tests
-            run: ./vendor/bin/phpunit
+      - name: Run tests
+        run: ./vendor/bin/phpunit
