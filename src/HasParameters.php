@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TiMacDonald\Middleware;
 
+use BackedEnum;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ReflectionMethod;
@@ -167,6 +168,10 @@ trait HasParameters
     {
         if ($value === false) {
             return '0';
+        }
+
+        if ($value instanceof BackedEnum) {
+            return $value->value;
         }
 
         return (string) $value;
