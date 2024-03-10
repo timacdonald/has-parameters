@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use ReflectionMethod;
 use ReflectionParameter;
 use TypeError;
+use BackedEnum;
 
 trait HasParameters
 {
@@ -165,6 +166,10 @@ trait HasParameters
      */
     private static function castToString($value): string
     {
+        if ($value instanceof BackedEnum) {
+            return $value->value;
+        }
+
         if ($value === false) {
             return '0';
         }
