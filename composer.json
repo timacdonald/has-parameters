@@ -22,8 +22,8 @@
     },
     "require": {
         "php": "^8.1",
-        "illuminate/support": "^9.0 || ^10.0 || ^11.0",
-        "illuminate/http": "^9.0 || ^10.0 || ^11.0"
+        "illuminate/support": "^10.0 || ^11.0",
+        "illuminate/http": "^10.0 || ^11.0"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4"
