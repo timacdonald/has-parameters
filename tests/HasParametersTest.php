@@ -16,6 +16,7 @@ use Tests\Middleware\OptionalRequired;
 use Tests\Middleware\Required;
 use Tests\Middleware\RequiredOptionalVariadic;
 use Tests\Middleware\Variadic;
+use Tests\Support\AnEnum;
 use TiMacDonald\Middleware\HasParameters;
 use TypeError;
 
@@ -60,6 +61,9 @@ class HasParametersTest extends TestCase
 
         $result = Basic::in([true, false]);
         $this->assertSame('Tests\\Middleware\\Basic:1,0', $result);
+
+        $result = Basic::in([AnEnum::A, AnEnum::B]);
+        $this->assertSame('Tests\\Middleware\\Basic:a,b', $result);
 
         $result = Variadic::in([]);
         $this->assertSame('Tests\\Middleware\\Variadic', $result);
