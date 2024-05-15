@@ -171,7 +171,7 @@ trait HasParameters
         }
 
         if ($value instanceof BackedEnum) {
-            return $value->value;
+            return (string) $value->value;
         }
 
         return (string) $value;
