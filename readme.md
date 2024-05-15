@@ -10,7 +10,7 @@ Read more about the why in my blog post [Rethinking Laravel's middleware argumen
 
 ## Version support
 
-- **PHP**: 8.2, 8.3
+- **PHP**: 8.1, 8.2, 8.3
 - **Laravel**: 10.0, 11.0
 
 ## Installation
