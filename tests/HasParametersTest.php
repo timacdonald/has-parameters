@@ -46,7 +46,13 @@ class HasParametersTest extends TestCase
         $result = Basic::in(['laravel']);
         $this->assertSame('Tests\\Middleware\\Basic:laravel', $result);
 
+        $result = Basic::in([Framework::Laravel]);
+        $this->assertSame('Tests\\Middleware\\Basic:laravel', $result);
+
         $result = Basic::in(['laravel', 'vue']);
+        $this->assertSame('Tests\\Middleware\\Basic:laravel,vue', $result);
+
+        $result = Basic::in([Framework::Laravel, Framework::Vue]);
         $this->assertSame('Tests\\Middleware\\Basic:laravel,vue', $result);
 
         $result = Basic::in(['laravel', ' ', null, 'tailwind']);
@@ -55,7 +61,13 @@ class HasParametersTest extends TestCase
         $result = Basic::in(new Collection(['laravel', 'vue']));
         $this->assertSame('Tests\\Middleware\\Basic:laravel,vue', $result);
 
+        $result = Basic::in(new Collection([Framework::Laravel, Framework::Vue]));
+        $this->assertSame('Tests\\Middleware\\Basic:laravel,vue', $result);
+
         $result = Basic::in([new Collection(['laravel', 'vue'])]);
+        $this->assertSame('Tests\\Middleware\\Basic:["laravel","vue"]', $result);
+
+        $result = Basic::in([new Collection([Framework::Laravel, Framework::Vue])]);
         $this->assertSame('Tests\\Middleware\\Basic:["laravel","vue"]', $result);
 
         $result = Basic::in([true, false]);
@@ -67,10 +79,16 @@ class HasParametersTest extends TestCase
         $result = Variadic::in(['laravel', 'vue']);
         $this->assertSame('Tests\\Middleware\\Variadic:laravel,vue', $result);
 
+        $result = Variadic::in([Framework::Laravel, Framework::Vue]);
+        $this->assertSame('Tests\\Middleware\\Variadic:laravel,vue', $result);
+
         $result = RequiredOptionalVariadic::in(['laravel']);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel', $result);
 
         $result = RequiredOptionalVariadic::in(['laravel', 'vue', 'tailwind', 'react']);
+        $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,vue,tailwind,react', $result);
+
+        $result = RequiredOptionalVariadic::in([Framework::Laravel, Framework::Vue, Framework::Tailwind, Framework::React]);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,vue,tailwind,react', $result);
     }
 
@@ -130,13 +148,22 @@ class HasParametersTest extends TestCase
         $result = Required::with(['required' => 'laravel']);
         $this->assertSame('Tests\\Middleware\\Required:laravel', $result);
 
+        $result = Required::with(['required' => Framework::Laravel]);
+        $this->assertSame('Tests\\Middleware\\Required:laravel', $result);
+
         $result = Required::with(['required' => 1.2]);
         $this->assertSame('Tests\\Middleware\\Required:1.2', $result);
 
         $result = Required::with(new Collection(['required' => 'laravel']));
         $this->assertSame('Tests\\Middleware\\Required:laravel', $result);
 
+        $result = Required::with(new Collection(['required' => Framework::Laravel]));
+        $this->assertSame('Tests\\Middleware\\Required:laravel', $result);
+
         $result = Required::with(['required' => new Collection(['laravel', 'vue'])]);
+        $this->assertSame('Tests\\Middleware\\Required:["laravel","vue"]', $result);
+
+        $result = Required::with(['required' => new Collection([Framework::Laravel, Framework::Vue])]);
         $this->assertSame('Tests\\Middleware\\Required:["laravel","vue"]', $result);
 
         $result = Optional::with([]);
@@ -157,10 +184,19 @@ class HasParametersTest extends TestCase
         $result = Optional::with(['optional' => 'laravel']);
         $this->assertSame('Tests\\Middleware\\Optional:laravel', $result);
 
+        $result = Optional::with(['optional' => Framework::Laravel]);
+        $this->assertSame('Tests\\Middleware\\Optional:laravel', $result);
+
         $result = Optional::with(new Collection(['optional' => 'laravel']));
         $this->assertSame('Tests\\Middleware\\Optional:laravel', $result);
 
+        $result = Optional::with(new Collection(['optional' => Framework::Laravel]));
+        $this->assertSame('Tests\\Middleware\\Optional:laravel', $result);
+
         $result = Optional::with(['optional' => new Collection(['laravel', 'vue'])]);
+        $this->assertSame('Tests\\Middleware\\Optional:["laravel","vue"]', $result);
+
+        $result = Optional::with(['optional' => new Collection([Framework::Laravel, Framework::Vue])]);
         $this->assertSame('Tests\\Middleware\\Optional:["laravel","vue"]', $result);
 
         $result = Optional::with(['optional' => true]);
@@ -181,7 +217,13 @@ class HasParametersTest extends TestCase
         $result = Variadic::with(['variadic' => 'laravel']);
         $this->assertSame('Tests\\Middleware\\Variadic:laravel', $result);
 
+        $result = Variadic::with(['variadic' => Framework::Laravel]);
+        $this->assertSame('Tests\\Middleware\\Variadic:laravel', $result);
+
         $result = Variadic::with(['variadic' => ['laravel', 'vue']]);
+        $this->assertSame('Tests\\Middleware\\Variadic:laravel,vue', $result);
+
+        $result = Variadic::with(['variadic' => [Framework::Laravel, Framework::Vue]]);
         $this->assertSame('Tests\\Middleware\\Variadic:laravel,vue', $result);
 
         $result = Variadic::with(['variadic' => ['laravel', ' ', null, 'vue']]);
@@ -190,7 +232,13 @@ class HasParametersTest extends TestCase
         $result = Variadic::with(['variadic' => new Collection(['laravel', 'vue'])]);
         $this->assertSame('Tests\\Middleware\\Variadic:laravel,vue', $result);
 
+        $result = Variadic::with(['variadic' => new Collection([Framework::Laravel, Framework::Vue])]);
+        $this->assertSame('Tests\\Middleware\\Variadic:laravel,vue', $result);
+
         $result = Variadic::with(['variadic' => [new Collection(['laravel', 'vue'])]]);
+        $this->assertSame('Tests\\Middleware\\Variadic:["laravel","vue"]', $result);
+
+        $result = Variadic::with(['variadic' => [new Collection([Framework::Laravel, Framework::Vue])]]);
         $this->assertSame('Tests\\Middleware\\Variadic:["laravel","vue"]', $result);
 
         $result = Variadic::with(['variadic' => true]);
@@ -211,6 +259,9 @@ class HasParametersTest extends TestCase
         $result = RequiredOptionalVariadic::with(['required' => 'laravel']);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,default', $result);
 
+        $result = RequiredOptionalVariadic::with(['required' => Framework::Laravel]);
+        $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,default', $result);
+
         $result = RequiredOptionalVariadic::with(['required' => 'laravel', 'optional' => 'vue']);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,vue', $result);
 
@@ -218,6 +269,9 @@ class HasParametersTest extends TestCase
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,vue,tailwind', $result);
 
         $result = RequiredOptionalVariadic::with(['required' => 'laravel', 'optional' => 'vue', 'variadic' => ['tailwind', 'react']]);
+        $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,vue,tailwind,react', $result);
+
+        $result = RequiredOptionalVariadic::with(['required' => Framework::Laravel, 'optional' => Framework::Vue, 'variadic' => [Framework::Tailwind, Framework::React]]);
         $this->assertSame('Tests\\Middleware\\RequiredOptionalVariadic:laravel,vue,tailwind,react', $result);
 
         $result = RequiredOptionalVariadic::with(['required' => 'laravel', 'optional' => 'vue', 'variadic' => []]);
@@ -362,4 +416,12 @@ class HasParametersTest extends TestCase
             'originalSecond' => 'second',
         ]);
     }
+}
+
+enum Framework: string
+{
+    case Laravel = 'laravel';
+    case Vue = 'vue';
+    case Tailwind = 'tailwind';
+    case React = 'react';
 }
