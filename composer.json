@@ -26,7 +26,11 @@
         "illuminate/http": "^10.0 || ^11.0"
     },
     "require-dev": {
-        "bamarni/composer-bin-plugin": "^1.4"
+        "friendsofphp/php-cs-fixer": "^3.6",
+        "infection/infection": "^0.26.4",
+        "orchestra/testbench": "^8.0",
+        "phpstan/phpstan": "^1.4",
+        "phpunit/phpunit": "^10.0"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -41,31 +45,21 @@
         }
     },
     "config": {
-        "allow-plugins": {
-            "bamarni/composer-bin-plugin": true
-        },
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
     },
     "scripts": {
-        "bin": "echo 'bin not installed'",
-        "post-install-cmd": [
-            "@composer bin all install --ansi"
-        ],
-        "post-update-cmd": [
-            "@composer bin all update --ansi"
-        ],
         "fix": [
-            "clear",
             "./vendor/bin/php-cs-fixer fix"
         ],
         "lint": [
-            "clear",
             "./vendor/bin/php-cs-fixer fix --dry-run",
             "./vendor/bin/phpstan analyse"
         ],
         "test": [
-            "clear",
             "./vendor/bin/phpunit",
             "./vendor/bin/infection --threads=8"
         ]
