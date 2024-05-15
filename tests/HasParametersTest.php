@@ -49,6 +49,9 @@ class HasParametersTest extends TestCase
         $result = Basic::in([Framework::Laravel]);
         $this->assertSame('Tests\\Middleware\\Basic:laravel', $result);
 
+        $result = Basic::in([IntEnum::Laravel]);
+        $this->assertSame('Tests\\Middleware\\Basic:1', $result);
+
         $result = Basic::in(['laravel', 'vue']);
         $this->assertSame('Tests\\Middleware\\Basic:laravel,vue', $result);
 
@@ -424,4 +427,9 @@ enum Framework: string
     case Vue = 'vue';
     case Tailwind = 'tailwind';
     case React = 'react';
+}
+
+enum IntEnum: int
+{
+    case Laravel = 1;
 }
