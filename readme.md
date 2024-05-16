@@ -233,7 +233,7 @@ One thing to note is the `false` is actually cast to the string `"0"` to keep so
 
 ## Typing values
 
-It is possible to provide stronger types parameters by leaning on docblocks. Here is an example of a strongly typed middleware:
+It is possible to provide stronge type information by utilising docblocks on your middleware class. Here is an example of how you could create a strongly typed middleware:
 
 ```php
 /**
