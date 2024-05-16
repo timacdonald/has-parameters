@@ -231,9 +231,36 @@ You should keep in mind that everything will still be cast to a string. Although
 
 One thing to note is the `false` is actually cast to the string `"0"` to keep some consistency with casting `true` to a string, which results in the string `"1"`.
 
-## Developing and testing
+## Typing values
 
-Although this package requires `"PHP": "^7.1"`, in order to install and develop locally, you should be running a recent version of PHP to ensure compatibility with the development tools.
+It is possible to provide stronger types parameters by leaning on docblocks. Here is an example of a strongly typed middleware:
+
+```php
+/**
+ * @method static string with(array{
+ *     maxAttempts?: int,
+ *     decayMinutes?: float|int,
+ *     prefix?: string,
+ * }|'admin' $arguments)
+ */
+class ThrottleMiddleware
+{
+    use HasParameters;
+}
+```
+
+You will then receive autocomplete and diagnostics from your language server:
+
+```php
+ThrottleMiddleware::with('admin');
+// ✅
+ThrottleMiddleware::with(['decayMinutes' => 10]);
+// ✅
+ThrottleMiddleware::with('foo');
+// ❌ fails because 'foo' is not in the allowed string values
+ThrottleMiddleware::with(['maxAttempts' => 'ten']);
+// ❌ fails because `maxAttempts` must be an int
+```
 
 ## Credits
 
