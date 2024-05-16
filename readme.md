@@ -254,10 +254,13 @@ You will then receive autocomplete and diagnostics from your language server:
 ```php
 ThrottleMiddleware::with('admin');
 // ✅
+
 ThrottleMiddleware::with(['decayMinutes' => 10]);
 // ✅
+
 ThrottleMiddleware::with('foo');
 // ❌ fails because 'foo' is not in the allowed string values
+
 ThrottleMiddleware::with(['maxAttempts' => 'ten']);
 // ❌ fails because `maxAttempts` must be an int
 ```
