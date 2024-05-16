@@ -30,7 +30,7 @@
         "infection/infection": "^0.28.1",
         "orchestra/testbench": "^9.0",
         "phpstan/phpstan": "^1.4",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^11.1"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
