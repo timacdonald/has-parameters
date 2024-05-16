@@ -246,6 +246,8 @@ It is possible to provide stronge type information by utilising docblocks on you
 class ThrottleMiddleware
 {
     use HasParameters;
+
+    // ...
 }
 ```
 
