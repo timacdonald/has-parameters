@@ -265,6 +265,8 @@ ThrottleMiddleware::with(['maxAttempts' => 'ten']);
 // ❌ fails because `maxAttempts` must be an int
 ```
 
+Checkout the example in the [PHPStan playground](https://phpstan.org/r/8c0ba5d8-a730-4fd9-9af8-bcec33d3b043).
+
 ## Credits
 
 - [Tim MacDonald](https://github.com/timacdonald)
