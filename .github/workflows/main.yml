@@ -7,9 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-  tests:
+  checks:
     runs-on: ubuntu-latest
-    name: 'Tests'
+    name: 'Check'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,14 +22,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ matrix.prefer }}-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-${{ matrix.prefer }}-
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           coverage: pcov
+          tools: infection, pint, phpstan
 
       - name: Install dependencies
         run: composer install
@@ -37,11 +38,11 @@ jobs:
       - name: Check platform requirements
         run: composer check-platform-reqs
 
-      - name: PHP-CS-Fixer
-        run: ./vendor/bin/php-cs-fixer fix --dry-run
+      - name: Pint
+        run: pint --test
 
       - name: Infection
-        run: ./vendor/bin/infection --min-msi=100
+        run: infection --show-mutations
 
       - name: PHPStan
-        run: ./vendor/bin/phpstan
+        run: phpstan
