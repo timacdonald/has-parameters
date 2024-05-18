@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use const PHP_MAJOR_VERSION;
+
 use Closure;
 use ErrorException;
 use Illuminate\Http\Request;
@@ -19,11 +21,6 @@ use Tests\Middleware\Variadic;
 use TiMacDonald\Middleware\HasParameters;
 use TypeError;
 
-use const PHP_MAJOR_VERSION;
-
-/**
- * @small
- */
 class HasParametersTest extends TestCase
 {
     public function testList(): void
@@ -358,7 +355,8 @@ class HasParametersTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Two provided aliases cannot point to the same parameter.');
 
-        $middleware = new class () {
+        $middleware = new class()
+        {
             use HasParameters;
 
             public function handle(Request $request, Closure $next, string $original, string $anotherOne): void
@@ -387,7 +385,8 @@ class HasParametersTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Aliases must reference existing parameters.');
 
-        $middleware = new class () {
+        $middleware = new class()
+        {
             use HasParameters;
 
             public function handle(Request $request, Closure $next, string $original): void

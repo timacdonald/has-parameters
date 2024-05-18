@@ -14,7 +14,7 @@ use TypeError;
 trait HasParameters
 {
     /**
-     * @param array $arguments
+     * @param  array  $arguments
      */
     public static function with($arguments): string
     {
@@ -49,7 +49,7 @@ trait HasParameters
     }
 
     /**
-     * @param array $arguments
+     * @param  array  $arguments
      */
     public static function in($arguments): string
     {
@@ -91,7 +91,7 @@ trait HasParameters
     {
         return $arguments->map(
             /**
-             * @param mixed $argument
+             * @param  mixed  $argument
              */
             static function ($argument): string {
                 return self::castToString($argument);
@@ -133,7 +133,7 @@ trait HasParameters
 
         return $values->map(
             /**
-             * @param mixed $value
+             * @param  mixed  $value
              */
             static function ($value) {
                 return self::castToString($value);
@@ -162,7 +162,7 @@ trait HasParameters
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed  $value
      */
     private static function castToString($value): string
     {
