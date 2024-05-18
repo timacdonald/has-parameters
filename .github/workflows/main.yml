@@ -90,8 +90,7 @@ jobs:
           composer require --no-update \
             illuminate/http:^${{ matrix.illuminate }} \
             illuminate/support:^${{ matrix.illuminate }} \
-            orchestra/testbench:^${{ matrix.testbench }} \
-            phpunit/phpunit:^${{ matrix.phpunit }}
+            orchestra/testbench:^${{ matrix.testbench }}
           composer update
 
       - name: Configure PHPUnit
