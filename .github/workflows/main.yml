@@ -60,6 +60,7 @@ jobs:
             phpunit: '10'
           - illuminate: '11'
             testbench: '9'
+            phpunit: '11'
         except:
           - php: '8.1'
             illuminate: '11'
