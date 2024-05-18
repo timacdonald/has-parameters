@@ -6,17 +6,12 @@ A trait for Laravel middleware that allows you to pass arguments in a more PHP'i
 
 Read more about the why in my blog post [Rethinking Laravel's middleware argument API](https://timacdonald.me/rethinking-laravels-middleware-argument-api/)
 
-## Version support
-
-- **PHP**: 8.1, 8.2, 8.3
-- **Laravel**: 10.0, 11.0
-
 ## Installation
 
-You can install using [composer](https://getcomposer.org/) from [Packagist](https://packagist.org/packages/timacdonald/has-parameters).
+You can install using [composer](https://getcomposer.org/):
 
 ```
-$ composer require timacdonald/has-parameters
+composer require timacdonald/has-parameters
 ```
 
 ## Basic usage
