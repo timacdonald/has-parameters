@@ -57,8 +57,12 @@ jobs:
         include:
           - illuminate: '10'
             testbench: '8'
+            phpunit: '10'
           - illuminate: '11'
             testbench: '9'
+        except:
+          - php: '8.1'
+            illuminate: '11'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -85,7 +89,8 @@ jobs:
           composer require --no-update \
             illuminate/http:^${{ matrix.illuminate }} \
             illuminate/support:^${{ matrix.illuminate }} \
-            orchestra/testbench:^${{ matrix.testbench }}
+            orchestra/testbench:^${{ matrix.testbench }} \
+            phpunit/phpunit:^${{ matrix.phpunit }}
           composer update
 
       - name: Configure PHPUnit
