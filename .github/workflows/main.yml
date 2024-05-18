@@ -77,7 +77,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-illuminate-${{ matrix.illuminate }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-phpunit-${{ matrix.illuminate }}-composer-
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-illuminate-${{ matrix.illuminate }}-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
