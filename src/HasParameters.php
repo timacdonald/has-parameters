@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace TiMacDonald\Middleware;
 
 use BackedEnum;
@@ -199,8 +197,7 @@ trait HasParameters
         /** @var ?ReflectionParameter */
         $missingRequiredParameter = $parameters->reject(static function (ReflectionParameter $parameter): bool {
             return $parameter->isDefaultValueAvailable() || $parameter->isVariadic();
-        })
-            ->first();
+        })->first();
 
         if ($missingRequiredParameter === null) {
             return;

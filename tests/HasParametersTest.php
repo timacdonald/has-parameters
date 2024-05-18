@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use const PHP_MAJOR_VERSION;
-
 use Closure;
 use ErrorException;
 use Illuminate\Http\Request;

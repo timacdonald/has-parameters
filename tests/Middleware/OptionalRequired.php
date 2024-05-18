@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Middleware;
-
-use const PHP_MAJOR_VERSION;
 
 use Closure;
 use Illuminate\Http\Request;
