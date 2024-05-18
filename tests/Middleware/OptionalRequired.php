@@ -12,6 +12,7 @@ if (PHP_MAJOR_VERSION < 8) {
     {
         use HasParameters;
 
+        /** @phpstan-ignore parameter.requiredAfterOptional */
         public function handle(Request $request, Closure $next, string $optional = 'default', string $required): void
         {
             //

@@ -123,6 +123,7 @@ class HasParametersTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Expected a non-associative array in HasParameters::in() but received an associative array. You should use the HasParameters::with() method instead.');
 
+        /** @phpstan-ignore argument.type */
         Basic::in(['framework' => 'laravel']);
     }
 
@@ -305,6 +306,7 @@ class HasParametersTest extends TestCase
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage('Expected an associative array in HasParameters::with() but received a non-associative array. You should use the HasParameters::in() method instead.');
 
+        /** @phpstan-ignore argument.type */
         Basic::with(['framework', 'laravel']);
     }
 
@@ -362,6 +364,9 @@ class HasParametersTest extends TestCase
                 //
             }
 
+            /**
+             * @return array<string, string>
+             */
             private static function parameterAliasMap(): array
             {
                 return [
@@ -392,6 +397,9 @@ class HasParametersTest extends TestCase
                 //
             }
 
+            /**
+             * @return array<string, string>
+             */
             private static function parameterAliasMap(): array
             {
                 return [

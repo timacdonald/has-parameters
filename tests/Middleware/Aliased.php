@@ -15,6 +15,9 @@ class Aliased
         //
     }
 
+    /**
+     * @return array<string, string>
+     */
     private static function parameterAliasMap(): array
     {
         return [
