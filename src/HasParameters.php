@@ -77,7 +77,7 @@ trait HasParameters
     }
 
     /**
-     * @param Collection<array-key, string> $arguments
+     * @param  Collection<array-key, string>  $arguments
      */
     private static function formatArguments(Collection $arguments): string
     {
@@ -234,7 +234,7 @@ trait HasParameters
     }
 
     /**
-     * @param  Collection<int, mixed> $arguments
+     * @param  Collection<int, mixed>  $arguments
      */
     private static function validateArgumentListIsNotAnAssociativeArray(Collection $arguments): void
     {
