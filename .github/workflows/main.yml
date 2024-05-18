@@ -90,6 +90,7 @@ jobs:
           composer require --no-update \
             illuminate/http:^${{ matrix.illuminate }} \
             illuminate/support:^${{ matrix.illuminate }} \
+            composer require --no-update --dev \
             orchestra/testbench:^${{ matrix.testbench }}
           composer update
 
