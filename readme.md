@@ -19,8 +19,6 @@ composer require timacdonald/has-parameters
 To get started with an example, I'm going to use a stripped back version of Laravel's `ThrottleRequests`. First up, add the `HasParameters` trait to your middleware.
 
 ```php
-<?php
-
 class ThrottleRequests
 {
     use HasParameters;
@@ -35,8 +33,6 @@ class ThrottleRequests
 You can now pass arguments to this middleware using the static `with()` method, using the parameter name as the key.
 
 ```php
-<?php
-
 Route::stuff()
     ->middleware([
         ThrottleRequests::with([
@@ -53,8 +49,6 @@ The static `with()` method allows you to easily see which values represent what 
 The order of the keys does not matter. The trait will pair up the keys to the parameter names in the `handle()` method.
 
 ```php
-<?php
-
 // before...
 Route::stuff()
     ->middleware([
@@ -76,8 +70,6 @@ Route::stuff()
 If any parameters in the `handle` method have a default value, you do not need to pass them through - unless you are changing their value. As an example, if you'd like to only specify a prefix for the `ThrottleRequests` middleware, but keep the `$decayMinutes` and `$maxAttempts` as their default values, you can do the following...
 
 ```php
-<?php
-
 Route::stuff()
     ->middleware([
         ThrottleRequests::with([
@@ -93,16 +85,12 @@ As we saw previously in the handle method, the default values of `$decayMinutes`
 When your middleware ends in a variadic paramater, you can pass an array of values for the variadic parameter key. Take a look at the following `handle()` method.
 
 ```php
-<?php
-
 public function handle(Request $request, Closure $next, string $ability, string ...$models)
 ```
 
 Here is how we can pass a list of values to the variadic `$models` parameter...
 
 ```php
-<?php
-
 Route::stuff()
     ->middleware([
         Authorize::with([
@@ -117,8 +105,6 @@ Route::stuff()
 Some middleware will have different behaviour based on the type of values passed through to a specific parameter. As an example, Laravel's `ThrottleRequests` middleware allows you to pass the name of a rate limiter to the `$maxAttempts` parameter, instead of a numeric value, in order to utilise that named limiter on the endpoint.
 
 ```php
-<?php
-
 // a named rate limiter...
 
 RateLimiter::for('api', function (Request $request) {
@@ -138,8 +124,6 @@ Route::stuff()
 In this kind of scenario, it is nice to be able to alias the `$maxAttempts` parameter name to something more readable.
 
 ```php
-<?php
-
 Route::stuff()
     ->middleware([
         ThrottleRequests::with([
@@ -151,8 +135,6 @@ Route::stuff()
 To achieve this, you can setup a parameter alias map in your middleware...
 
 ```php
-<?php
-
 class ThrottleRequests
 {
     use HasParameters;
@@ -195,8 +177,6 @@ Ensures all required parameters (those without default values) have been provide
 The static `in()` method very much reflects and works the same as the existing concatination API. It accepts a list of values, i.e. a non-associative array. You should use this method if your `handle()` method is a single variadic parameter, i.e. expecting a single list of values, as shown in the following middleware handle method...
 .
 ```php
-<?php
-
 public function handle(Request $request, Closure $next, string ...$states)
 {
     //
@@ -206,8 +186,6 @@ public function handle(Request $request, Closure $next, string ...$states)
 You can pass through a list of "states" to the middleware like so...
 
 ```php
-<?php
-
 Route::stuff()
     ->middleware([
         EnsurePostState::in([PostState::DRAFT, PostState::UNDER_REVIEW]),
