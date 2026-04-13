@@ -1,5 +1,13 @@
 {
     "notPath": [
         "tests/Middleware/OptionalRequired.php"
-    ]
+    ],
+    "rules": {
+        "php_unit_method_casing": {
+            "case": "camel_case"
+        },
+        "new_with_parentheses": {
+            "anonymous_class": true
+        }
+    }
 }

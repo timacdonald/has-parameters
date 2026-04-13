@@ -53,7 +53,7 @@ jobs:
     strategy:
       matrix:
         php: ['8.1', '8.2', '8.3']
-        illuminate: ['10', '11']
+        illuminate: ['10', '11', '12', '13']
         include:
           - illuminate: '10'
             testbench: '8'
@@ -61,9 +61,21 @@ jobs:
           - illuminate: '11'
             testbench: '9'
             phpunit: '11'
+          - illuminate: '12'
+            testbench: '10'
+            phpunit: '11'
+          - illuminate: '13'
+            testbench: '11'
+            phpunit: '12'
         exclude:
           - php: '8.1'
             illuminate: '11'
+          - php: '8.1'
+            illuminate: '12'
+          - php: '8.1'
+            illuminate: '13'
+          - php: '8.2'
+            illuminate: '13'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
